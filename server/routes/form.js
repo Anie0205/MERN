@@ -7,10 +7,10 @@ const {
     getForm
 } = require('../controllers/formController')
 
-// User registration
+// Form creation
 router.post('/create', sendForm)
 
-// User login
+// Form fetch
 router.post('/get', getForm)
 
 module.exports = router
