@@ -14,7 +14,7 @@ const Form = ({ field }) => {
                 'Authorization': `Bearer ${token}`,
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ formName: username, formData: responses }),
+            body: JSON.stringify({ formName: 'response', formData: responses }),
         })
         if (response.ok) {
             alert('Response submitted successfully')
