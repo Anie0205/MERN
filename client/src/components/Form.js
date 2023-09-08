@@ -4,7 +4,6 @@ import React, { useState } from 'react'
 const Form = ({ field }) => {
     const [responses, setResponses] = useState({})
     const token = sessionStorage.getItem('token')
-    const username = sessionStorage.getItem('username')
 
     const handleSubmit = async () => {
         // Send responses to the backend or perform further processing
