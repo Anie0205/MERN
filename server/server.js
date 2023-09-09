@@ -10,6 +10,7 @@ const dbUrl = process.env.URL
 
 // Middleware
 app.use(express.json())
+app.use(express.static('uploads'))
 app.use(cors())
 app.use((req, res, next) => {
     res.header("Access-Control-Allow-Origin", "*")
@@ -17,10 +18,11 @@ app.use((req, res, next) => {
     next()
 })
 
-// Routes for user authentication
+// Routes for users
 app.use('/auth', require('./routes/auth'))
 app.use('/form', require('./routes/form'))
 app.use('/response', require('./routes/submission'))
+app.use('/file', require('./routes/file'))
 
 // Database connection
 mongoose.set("strictQuery", false)
