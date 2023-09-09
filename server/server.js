@@ -2,6 +2,7 @@ require("dotenv").config()
 const express = require("express")
 const mongoose = require("mongoose")
 const cors = require("cors")
+const fs = require('fs')
 
 // Express App
 const app = express()
@@ -46,4 +47,21 @@ mongoose.connection.on('error', (err) => {
 
 mongoose.connection.on('disconnected', () => {
     console.log('Disconnected from MongoDB')
+})
+
+// Upload folder existence
+fs.readdir('./', (err, files) => {
+    if (err) {
+        console.error(`Error reading directory: ${err}`)
+        return
+    }
+    if (!files.includes('uploads')) {
+        fs.mkdir('./uploads', { recursive: true }, (err) => {
+            if (err) {
+                console.error(`Error creating directory: ${err}`)
+            } else {
+                console.log('Directory created successfully')
+            }
+        })
+    }
 })
