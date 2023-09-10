@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 
 const Form = ({ field }) => {
     const [responses, setResponses] = useState({})
+    const [id, setId] = useState('')
     const token = sessionStorage.getItem('token')
 
     const handleSubmit = async () => {
@@ -32,6 +33,29 @@ const Form = ({ field }) => {
         setResponses(updatedResponses)
     }
 
+    const handleFileSubmit = async (file) => {
+        const formData = new FormData()
+        formData.append('file', file)
+        const response = await fetch('/file/upload', {
+            method: 'POST',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            },
+            body: formData,
+        })
+        if (response.ok) {
+            const json = await response.json()
+            setId(json._id)
+        }
+    }
+
+    const handleFileChange = (e, fieldName) => {
+        handleFileSubmit(e.target.files[0])
+        const updatedResponses = { ...responses }
+        updatedResponses[fieldName] = id
+        setResponses(updatedResponses)
+    }
+
     return (
         <div>
             {field.type === 'text' && (
@@ -56,6 +80,15 @@ const Form = ({ field }) => {
                             </option>
                         ))}
                     </select>
+                </div>
+            )}
+            {field.type === 'file' && (
+                <div>
+                    <label>{field.name}</label>
+                    <input
+                        type="file"
+                        onChange={(e) => handleFileChange(e, field.name)}
+                    />
                 </div>
             )}
             <button onClick={handleSubmit}>Submit</button>

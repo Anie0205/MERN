@@ -21,6 +21,13 @@ const FormBuilder = () => {
         }
     }
 
+    const addFileField = () => {
+        if (fieldName.trim() !== '') {
+            setFormFields([...formFields, { type: 'file', name: fieldName }])
+            setFieldName('')
+        }
+    }
+
     const addOption = (index, option) => {
         const updatedFields = [...formFields]
         updatedFields[index].options.push(option)
@@ -59,6 +66,7 @@ const FormBuilder = () => {
                 />
                 <button onClick={addTextField}>Add Text Field</button>
                 <button onClick={addMCQField}>Add MCQ Field</button>
+                <button onClick={addFileField}>Add File Field</button>
             </div>
 
             <h3>Form Preview</h3>
@@ -68,6 +76,12 @@ const FormBuilder = () => {
                         {field.type === 'text' && (
                             <div>
                                 <input type="text" name={field.name} placeholder={field.name} />
+                                <button onClick={() => removeField(index)}>Remove</button>
+                            </div>
+                        )}
+                        {field.type === 'file' && (
+                            <div>
+                                <input type="file" name={field.name} />
                                 <button onClick={() => removeField(index)}>Remove</button>
                             </div>
                         )}
